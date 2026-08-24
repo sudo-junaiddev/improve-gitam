@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>IMPROVE GITAM</title>
+
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body>
+    <main class="index-page">
+      <!-- HERO -->
+
+      <section class="hero">
+        <div class="hero-content">
+          <div class="hero-badge">GITAM IMPROVEMENTS</div>
+
+          <h1>IMPROVE GITAM</h1>
+
+          <p>
+            GITAM Uni's website and app <b>fucks up</b> sometimes, so I created
+            this page where I improved some of the GITAM services. Enjoy!
+          </p>
+
+          <img
+            class="hero-gif"
+            src="https://media1.tenor.com/m/4DOaIudYcpkAAAAC/thumbs-up-ok.gif"
+            alt="Thumbs up"
+          />
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+
+      <section class="projects-section">
+        <div class="section-heading">
+          <div>
+            <span class="section-label"> PROJECTS </span>
+
+            <h2>Improved GITAM Services</h2>
+          </div>
+
+          <span id="project-count" class="project-count"> 0 projects </span>
+        </div>
+
+        <div id="projects-grid" class="projects-grid">
+          <div class="loading">Loading projects...</div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+
+      <footer class="site-footer">
+        Made by
+
+        <a href="https://abujuni.dev" target="_blank" rel="noopener noreferrer">
+          <b>Junaid</b>
+        </a>
+      </footer>
+    </main>
+
+    <script>
+      async function loadProjects() {
+        const grid = document.getElementById("projects-grid");
+
+        const projectCount = document.getElementById("project-count");
+
+        try {
+          const response = await fetch("./db.json");
+
+          if (!response.ok) {
+            throw new Error("Unable to load db.json");
+          }
+
+          const projects = await response.json();
+
+          if (!Array.isArray(projects)) {
+            throw new Error("db.json must contain an array");
+          }
+
+          projectCount.textContent =
+            projects.length +
+            (projects.length === 1 ? " project" : " projects");
+
+          grid.innerHTML = "";
+
+          if (projects.length === 0) {
+            grid.innerHTML = `
+                        <div class="empty-state">
+                            No projects available.
+                        </div>
+                    `;
+
+            return;
+          }
+
+          projects.forEach(function (project, index) {
+            const card = document.createElement("a");
+
+            card.className = "project-card";
+
+            card.href = project.link || "#";
+
+            card.style.setProperty("--card-index", index);
+
+            card.innerHTML = `
+
+                        <div class="card-number">
+                            ${String(index + 1).padStart(2, "0")}
+                        </div>
+
+                        <div class="card-content">
+
+                            <span class="card-label">
+                                PROJECT
+                            </span>
+
+                            <h3>
+                                ${escapeHTML(
+                                  project.title || "Untitled Project",
+                                )}
+                            </h3>
+
+                            <span class="open-project">
+                                Open project
+                                <span class="arrow">
+                                    >
+                                </span>
+                            </span>
+
+                        </div>
+
+                    `;
+
+            grid.appendChild(card);
+          });
+        } catch (error) {
+          console.error(error);
+
+          projectCount.textContent = "Error";
+
+          grid.innerHTML = `
+
+                    <div class="error-state">
+
+                        <strong>
+                            I am lazy to add one or make one.
+                        </strong>
+
+                    </div>
+
+                `;
+        }
+      }
+
+      function escapeHTML(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      loadProjects();
+    </script>
+  </body>
+</html>

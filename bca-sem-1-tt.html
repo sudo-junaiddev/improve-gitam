@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="bca-neo">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BCA | Semester I | Academic Year 2026-2027</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/daisyui@5"
+        rel="stylesheet"
+        type="text/css"
+    >
+<link rel="stylesheet" href="tt.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+
+    </head>
+
+
+<body>
+
+<section class="content-container">
+
+
+    <!-- =====================================================
+         HEADER
+    ===================================================== -->
+
+    <header class="page-header">
+
+        <div class="title-wrapper">
+
+            <p class="eyebrow">
+                Bachelor of Computer Applications
+            </p>
+
+            <h1 class="page-title">
+                BCA | Semester I | Academic Year 2026-2027
+            </h1>
+
+            <p class="page-subtitle">
+                Weekly class timetable and registered course information
+            </p>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="print-btn"
+            onclick="printTimetable()"
+        >
+
+            <svg
+                class="print-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+
+            Print Timetable
+
+        </button>
+
+    </header>
+
+
+    <!-- =====================================================
+         TIMETABLE
+    ===================================================== -->
+
+    <div class="section-header">
+
+        <h2 class="section-title">
+
+            <span class="section-line"></span>
+
+            Weekly Timetable
+
+        </h2>
+
+    </div>
+
+
+    <div class="neo-card">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Weekday</th>
+                        <th>08:00 - 08:50</th>
+                        <th>09:00 - 09:50</th>
+                        <th>10:00 - 10:50</th>
+                        <th>11:00 - 11:50</th>
+                        <th>12:00 - 12:50</th>
+                        <th>13:00 - 13:50</th>
+                        <th>14:00 - 14:50</th>
+                        <th>15:00 - 15:50</th>
+                        <th>16:00 - 16:50</th>
+                        <th>17:00 - 17:50</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>Monday</td>
+
+                        <td><span class="course">ENVS1072</span></td>
+                        <td><span class="course">MATH1401</span></td>
+                        <td><span class="course">CSCI1421</span></td>
+                        <td><span class="course">CSCI1411</span></td>
+                        <td><span class="course">CSCI1401</span></td>
+
+                        <td class="empty">-</td>
+                        <td class="empty">-</td>
+                        <td class="empty">-</td>
+                        <td class="empty">-</td>
+                        <td class="empty">-</td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>Tuesday</td>
+
+                        <td class="empty">-</td>
+
+                        <td><span class="course">CSCI1421</span></td>
+                        <td><span class="course">MATH1401</span></td>
+                        <td><span class="course">CSCI1431</span></td>
+                        <td><span class="course">CSCI1431</span></td>
+
+                        <td class="empty">-</td>
+
+                        <td><span class="course">LANG1242</span></td>
+                        <td><span class="course">LANG1242</span></td>
+
+                        <td class="empty">-</td>
+                        <td class="empty">-</td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>Wednesday</td>
+
+                        <td class="empty">-</td>
+
+                        <td><span class="course">MATH1401</span></td>
+                        <td><span class="course">CSCI1421</span></td>
+                        <td><span class="course">CSCI1431</span></td>
+                        <td><span class="course">CSCI1431</span></td>
+
+                        <td class="empty">-</td>
+                        <td class="empty">-</td>
+                        <td class="empty">-</td>
+                        <td class="empty">-</td>
+                        <td class="empty">-</td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>Thursday</td>
+
+                        <td class="empty">-</td>
+
+                        <td><span class="course">CSCI1411</span></td>
+                        <td><span class="course">CSCI1401</span></td>
+                        <td><span class="course">CSCI1441</span></td>
+                        <td><span class="course">CSCI1441</span></td>
+
+                        <td class="empty">-</td>
+                        <td class="empty">-</td>
+                        <td class="empty">-</td>
+                        <td class="empty">-</td>
+                        <td class="empty">-</td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>Friday</td>
+
+                        <td class="empty">-</td>
+
+                        <td><span class="course">ENVS1072</span></td>
+                        <td><span class="course">CSCI1411</span></td>
+                        <td><span class="course">LANG1242</span></td>
+                        <td><span class="course">LANG1242</span></td>
+
+                        <td class="empty">-</td>
+
+                        <td><span class="course">CSCI1401</span></td>
+
+                        <td class="empty">-</td>
+                        <td class="empty">-</td>
+                        <td class="empty">-</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="legend">
+
+            <div class="legend-item">
+                <span class="legend-dot legend-blue"></span>
+                Theory / Core
+            </div>
+
+            <div class="legend-item">
+                <span class="legend-dot legend-green"></span>
+                Practical / Skill
+            </div>
+
+            <div class="legend-item">
+                <span class="legend-dot legend-yellow"></span>
+                Enhancement / Classification
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         REGISTERED COURSES
+    ===================================================== -->
+
+    <div class="section-header">
+
+        <h2 class="section-title">
+
+            <span class="section-line"></span>
+
+            Registered Courses
+
+        </h2>
+
+    </div>
+
+
+    <div class="neo-card">
+
+        <div class="table-wrap">
+
+            <table class="courses-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Course Title</th>
+                        <th>Room</th>
+                        <th>Credits</th>
+                        <th>Type</th>
+                        <th>Category</th>
+                        <th>Instructor</th>
+                        <th>Schedule</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td class="course-code">
+                            CSCI1401
+                        </td>
+
+                        <td class="course-title">
+                            C Programming
+                        </td>
+
+                        <td class="room">
+                            AB-I / 211
+                        </td>
+
+                        <td class="credits">
+                            3
+                        </td>
+
+                        <td>
+                            <span class="type">T</span>
+                        </td>
+
+                        <td>
+                            <span class="category">SEC</span>
+                        </td>
+
+                        <td class="instructor">
+                            Helen Parimala E
+                        </td>
+
+                        <td class="schedule">
+                            <div>Thursday: 10:00 - 10:50</div>
+                            <div>Monday: 12:00 - 12:50</div>
+                            <div>Friday: 14:00 - 14:50</div>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="course-code">
+                            CSCI1411
+                        </td>
+
+                        <td class="course-title">
+                            Basic Principles of Information Technology
+                        </td>
+
+                        <td class="room">
+                            AB-I / 211
+                        </td>
+
+                        <td class="credits">
+                            3
+                        </td>
+
+                        <td>
+                            <span class="type">T</span>
+                        </td>
+
+                        <td>
+                            <span class="category">PC</span>
+                        </td>
+
+                        <td class="instructor">
+                            Kalpanadevi D
+                        </td>
+
+                        <td class="schedule">
+                            <div>Thursday: 09:00 - 09:50</div>
+                            <div>Friday: 10:00 - 10:50</div>
+                            <div>Monday: 11:00 - 11:50</div>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="course-code">
+                            CSCI1421
+                        </td>
+
+                        <td class="course-title">
+                            Digital Logic Circuits
+                        </td>
+
+                        <td class="room">
+                            AB-I / 211
+                        </td>
+
+                        <td class="credits">
+                            3
+                        </td>
+
+                        <td>
+                            <span class="type">T</span>
+                        </td>
+
+                        <td>
+                            <span class="category">PC</span>
+                        </td>
+
+                        <td class="instructor">
+                            NV Krishna Prasad
+                        </td>
+
+                        <td class="schedule">
+                            <div>Tuesday: 09:00 - 09:50</div>
+                            <div>Monday: 10:00 - 10:50</div>
+                            <div>Wednesday: 10:00 - 10:50</div>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="course-code">
+                            CSCI1431
+                        </td>
+
+                        <td class="course-title">
+                            C Programming Laboratory
+                        </td>
+
+                        <td class="room">
+                            AB-I / 211
+                        </td>
+
+                        <td class="credits">
+                            2
+                        </td>
+
+                        <td>
+                            <span class="type">P</span>
+                        </td>
+
+                        <td>
+                            <span class="category">SEC</span>
+                        </td>
+
+                        <td class="instructor">
+                            Helen Parimala E
+                        </td>
+
+                        <td class="schedule">
+                            <div>Tuesday: 11:00 - 11:50</div>
+                            <div>Wednesday: 11:00 - 11:50</div>
+                            <div>Tuesday: 12:00 - 12:50</div>
+                            <div>Wednesday: 12:00 - 12:50</div>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="course-code">
+                            CSCI1441
+                        </td>
+
+                        <td class="course-title">
+                            Office Automation Tools
+                        </td>
+
+                        <td class="room">
+                            AB-I / 101
+                        </td>
+
+                        <td class="credits">
+                            1
+                        </td>
+
+                        <td>
+                            <span class="type">P</span>
+                        </td>
+
+                        <td>
+                            <span class="category">PC</span>
+                        </td>
+
+                        <td class="instructor">
+                            Nirmala S
+                        </td>
+
+                        <td class="schedule">
+                            <div>Thursday: 11:00 - 11:50</div>
+                            <div>Thursday: 12:00 - 12:50</div>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="course-code">
+                            ENVS1072
+                        </td>
+
+                        <td class="course-title">
+                            Environmental Science and Sustainability
+                        </td>
+
+                        <td class="room">
+                            AB-I / 211
+                        </td>
+
+                        <td class="credits">
+                            2
+                        </td>
+
+                        <td>
+                            <span class="type">T</span>
+                        </td>
+
+                        <td>
+                            <span class="category">VAC</span>
+                        </td>
+
+                        <td class="instructor">
+                            K Venkata Ratnam
+                        </td>
+
+                        <td class="schedule">
+                            <div>Monday: 08:00 - 08:50</div>
+                            <div>Friday: 09:00 - 09:50</div>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="course-code">
+                            LANG1242
+                        </td>
+
+                        <td class="course-title">
+                            Communicative English - I
+                        </td>
+
+                        <td class="room">
+                            AB-I / 211
+                        </td>
+
+                        <td class="credits">
+                            2
+                        </td>
+
+                        <td>
+                            <span class="type">P</span>
+                        </td>
+
+                        <td>
+                            <span class="category">AEC</span>
+                        </td>
+
+                        <td class="instructor">
+                            Srijani Mondal
+                        </td>
+
+                        <td class="schedule">
+                            <div>Tuesday: 14:00 - 14:50</div>
+                            <div>Tuesday: 15:00 - 15:50</div>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="course-code">
+                            LANG1242
+                        </td>
+
+                        <td class="course-title">
+                            Communicative English - I
+                        </td>
+
+                        <td class="room">
+                            AB-I / 214
+                        </td>
+
+                        <td class="credits">
+                            2
+                        </td>
+
+                        <td>
+                            <span class="type">P</span>
+                        </td>
+
+                        <td>
+                            <span class="category">AEC</span>
+                        </td>
+
+                        <td class="instructor">
+                            Srijani Mondal
+                        </td>
+
+                        <td class="schedule">
+                            <div>Friday: 11:00 - 11:50</div>
+                            <div>Friday: 12:00 - 12:50</div>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="course-code">
+                            MATH1401
+                        </td>
+
+                        <td class="course-title">
+                            Mathematics Foundation To Computer Science - I
+                        </td>
+
+                        <td class="room">
+                            AB-I / 211
+                        </td>
+
+                        <td class="credits">
+                            3
+                        </td>
+
+                        <td>
+                            <span class="type">T</span>
+                        </td>
+
+                        <td>
+                            <span class="category">PC</span>
+                        </td>
+
+                        <td class="instructor">
+                            Arindam Dey
+                        </td>
+
+                        <td class="schedule">
+                            <div>Monday: 09:00 - 09:50</div>
+                            <div>Wednesday: 09:00 - 09:50</div>
+                            <div>Tuesday: 10:00 - 10:50</div>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         COURSE CLASSIFICATION
+    ===================================================== -->
+
+    <div class="section-header">
+
+        <h2 class="section-title">
+
+            <span class="section-line"></span>
+
+            Course Classification
+
+        </h2>
+
+    </div>
+
+
+    <div class="neo-card">
+
+        <div class="table-wrap">
+
+            <table class="classification-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Code</th>
+                        <th>Full Form</th>
+                        <th>Meaning</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td class="classification-code">
+                            T
+                        </td>
+
+                        <td class="classification-name">
+                            Theory
+                        </td>
+
+                        <td class="classification-description">
+                            Classroom-based lectures and theoretical study.
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="classification-code">
+                            P
+                        </td>
+
+                        <td class="classification-name">
+                            Practical
+                        </td>
+
+                        <td class="classification-description">
+                            Laboratory, practical, or hands-on sessions.
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="classification-code">
+                            PC
+                        </td>
+
+                        <td class="classification-name">
+                            Program Core
+                        </td>
+
+                        <td class="classification-description">
+                            Core subjects required as part of the BCA program.
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="classification-code">
+                            SEC
+                        </td>
+
+                        <td class="classification-name">
+                            Skill Enhancement Course
+                        </td>
+
+                        <td class="classification-description">
+                            Courses focused on developing practical and professional skills.
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="classification-code">
+                            AEC
+                        </td>
+
+                        <td class="classification-name">
+                            Ability Enhancement Course
+                        </td>
+
+                        <td class="classification-description">
+                            Courses designed to improve communication and foundational abilities.
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="classification-code">
+                            VAC
+                        </td>
+
+                        <td class="classification-name">
+                            Value Added Course
+                        </td>
+
+                        <td class="classification-description">
+                            Additional courses that provide broader skills and general knowledge.
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FOOTER
+    ===================================================== -->
+
+    <footer class="page-footer">
+
+        Made by 
+
+        <a
+            href="https://abujuni.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Junaid
+        </a>
+
+    </footer>
+
+</section>
+
+
+<script>
+
+    function printTimetable() {
+        window.print();
+    }
+
+</script>
+
+</body>
+
+</html>
