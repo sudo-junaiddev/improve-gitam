@@ -12,21 +12,17 @@
         rel="stylesheet"
         type="text/css"
     >
-<link rel="stylesheet" href="tt.css">
+    <link rel="stylesheet" href="tt.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
+    <style>
 
-    </head>
-
+    </style>
+</head>
 
 <body>
 
 <section class="content-container">
-
-
-    <!-- =====================================================
-         HEADER
-    ===================================================== -->
 
     <header class="page-header">
 
@@ -46,13 +42,11 @@
 
         </div>
 
-
         <button
             type="button"
             class="print-btn"
             onclick="printTimetable()"
         >
-
             <svg
                 class="print-icon"
                 viewBox="0 0 24 24"
@@ -73,11 +67,6 @@
 
     </header>
 
-
-    <!-- =====================================================
-         TIMETABLE
-    ===================================================== -->
-
     <div class="section-header">
 
         <h2 class="section-title">
@@ -89,7 +78,6 @@
         </h2>
 
     </div>
-
 
     <div class="neo-card">
 
@@ -115,7 +103,6 @@
 
                 </thead>
 
-
                 <tbody>
 
                     <tr>
@@ -135,7 +122,6 @@
                         <td class="empty">-</td>
 
                     </tr>
-
 
                     <tr>
 
@@ -158,7 +144,6 @@
 
                     </tr>
 
-
                     <tr>
 
                         <td>Wednesday</td>
@@ -178,7 +163,6 @@
 
                     </tr>
 
-
                     <tr>
 
                         <td>Thursday</td>
@@ -197,7 +181,6 @@
                         <td class="empty">-</td>
 
                     </tr>
-
 
                     <tr>
 
@@ -226,32 +209,7 @@
 
         </div>
 
-
-        <div class="legend">
-
-            <div class="legend-item">
-                <span class="legend-dot legend-blue"></span>
-                Theory / Core
-            </div>
-
-            <div class="legend-item">
-                <span class="legend-dot legend-green"></span>
-                Practical / Skill
-            </div>
-
-            <div class="legend-item">
-                <span class="legend-dot legend-yellow"></span>
-                Enhancement / Classification
-            </div>
-
-        </div>
-
     </div>
-
-
-    <!-- =====================================================
-         REGISTERED COURSES
-    ===================================================== -->
 
     <div class="section-header">
 
@@ -264,7 +222,6 @@
         </h2>
 
     </div>
-
 
     <div class="neo-card">
 
@@ -286,7 +243,6 @@
                     </tr>
 
                 </thead>
-
 
                 <tbody>
 
@@ -328,7 +284,6 @@
 
                     </tr>
 
-
                     <tr>
 
                         <td class="course-code">
@@ -367,7 +322,6 @@
 
                     </tr>
 
-
                     <tr>
 
                         <td class="course-code">
@@ -405,7 +359,6 @@
                         </td>
 
                     </tr>
-
 
                     <tr>
 
@@ -446,7 +399,6 @@
 
                     </tr>
 
-
                     <tr>
 
                         <td class="course-code">
@@ -483,7 +435,6 @@
                         </td>
 
                     </tr>
-
 
                     <tr>
 
@@ -522,7 +473,6 @@
 
                     </tr>
 
-
                     <tr>
 
                         <td class="course-code">
@@ -560,7 +510,6 @@
 
                     </tr>
 
-
                     <tr>
 
                         <td class="course-code">
@@ -597,7 +546,6 @@
                         </td>
 
                     </tr>
-
 
                     <tr>
 
@@ -645,11 +593,6 @@
 
     </div>
 
-
-    <!-- =====================================================
-         COURSE CLASSIFICATION
-    ===================================================== -->
-
     <div class="section-header">
 
         <h2 class="section-title">
@@ -661,7 +604,6 @@
         </h2>
 
     </div>
-
 
     <div class="neo-card">
 
@@ -678,7 +620,6 @@
                     </tr>
 
                 </thead>
-
 
                 <tbody>
 
@@ -698,7 +639,6 @@
 
                     </tr>
 
-
                     <tr>
 
                         <td class="classification-code">
@@ -714,7 +654,6 @@
                         </td>
 
                     </tr>
-
 
                     <tr>
 
@@ -732,7 +671,6 @@
 
                     </tr>
 
-
                     <tr>
 
                         <td class="classification-code">
@@ -749,7 +687,6 @@
 
                     </tr>
 
-
                     <tr>
 
                         <td class="classification-code">
@@ -765,7 +702,6 @@
                         </td>
 
                     </tr>
-
 
                     <tr>
 
@@ -791,11 +727,6 @@
 
     </div>
 
-
-    <!-- =====================================================
-         FOOTER
-    ===================================================== -->
-
     <footer class="page-footer">
 
         Made by 
@@ -812,13 +743,52 @@
 
 </section>
 
-
 <script>
-
     function printTimetable() {
         window.print();
     }
 
+    document.addEventListener("DOMContentLoaded", () => {
+        const timetableCourses = document.querySelectorAll('.neo-card table:not(.courses-table):not(.classification-table) .course');
+
+        timetableCourses.forEach(courseElement => {
+            courseElement.addEventListener('click', () => {
+                const courseCode = courseElement.textContent.trim();
+                highlightAndScrollToCourse(courseCode);
+            });
+        });
+    });
+
+    function highlightAndScrollToCourse(courseCode) {
+        const courseRows = document.querySelectorAll('.courses-table tbody tr');
+        let targetRow = null;
+
+        courseRows.forEach(row => {
+            row.classList.remove('highlight-course');
+            const rowCode = row.querySelector('.course-code')?.textContent.trim();
+            if (rowCode === courseCode && !targetRow) {
+                targetRow = row;
+            }
+        });
+
+        if (targetRow) {
+            courseRows.forEach(row => {
+                const rowCode = row.querySelector('.course-code')?.textContent.trim();
+                if (rowCode === courseCode) {
+                    row.classList.add('highlight-course');
+                }
+            });
+
+            targetRow.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+
+            setTimeout(() => {
+                courseRows.forEach(row => row.classList.remove('highlight-course'));
+            }, 3000);
+        }
+    }
 </script>
 
 </body>
