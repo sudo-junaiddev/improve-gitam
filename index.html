@@ -6,7 +6,7 @@
 
     <title>IMPROVE GITAM</title>
 
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
 
   <body>
@@ -15,7 +15,6 @@
 
       <section class="hero">
         <div class="hero-content">
-          <div class="hero-badge">GITAM IMPROVEMENTS</div>
 
           <h1>IMPROVE GITAM</h1>
 
@@ -68,7 +67,7 @@
         const projectCount = document.getElementById("project-count");
 
         try {
-          const response = await fetch("./db.json");
+          const response = await fetch("db/db.json");
 
           if (!response.ok) {
             throw new Error("Unable to load db.json");
