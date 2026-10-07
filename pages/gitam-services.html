@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GITAM Services</title>
+
+    <!-- DaisyUI + Tailwind first, theme last so it wins -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <main class="index-page">
+      <!-- HERO -->
+      <header class="hero">
+        <div class="hero-content">
+          <h1>GITAM services</h1>
+          <p>
+            All GITAM Uni's services are scattered across apps and websites,
+            stacked up in G-Portal, and some are lost on the web but still live.
+            Here you'll find all services, organized with the info you need.
+          </p>
+        </div>
+      </header>
+
+      <!-- SERVICES -->
+      <section class="projects-section">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">Directory</p>
+            <h2>Services</h2>
+          </div>
+          <span class="project-count" id="count"></span>
+        </div>
+
+        <!-- Controls -->
+        <div
+          class="flex flex-col gap-3 mb-5 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <input
+            id="search"
+            type="search"
+            placeholder="Search services..."
+            class="input input-bordered input-sm w-full sm:max-w-xs bg-transparent"
+          />
+          <div id="filters" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <div class="projects-grid" id="cards">
+          <div class="loading">Loading services...</div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        GITAM Services
+        <span class="footer-separator">•</span>
+        Built by
+        <a href="https://www.abujuni.dev" target="_blank" rel="noopener"
+          >Junaid</a
+        >
+      </footer>
+    </main>
+
+    <script>
+      const cardsEl = document.getElementById("cards");
+      const filtersEl = document.getElementById("filters");
+      const countEl = document.getElementById("count");
+      const searchEl = document.getElementById("search");
+
+      let services = [];
+      let activeCategory = "All";
+      let query = "";
+
+      const esc = (s) =>
+        String(s).replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+
+      const linkIcon = `
+      <svg xmlns="http://www.w3.org/2000/svg" class="inline h-3.5 w-3.5 ml-1 -mt-0.5"
+           fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+      </svg>`;
+
+      function renderFilters() {
+        const cats = ["All", ...new Set(services.map((s) => s.category))];
+        filtersEl.innerHTML = cats
+          .map(
+            (c) => `
+        <button data-cat="${esc(c)}"
+          class="btn btn-xs ${c === activeCategory ? "btn-primary" : "btn-outline"}">
+          ${esc(c)}
+        </button>`,
+          )
+          .join("");
+      }
+
+      function renderCards() {
+        const q = query.trim().toLowerCase();
+        const list = services.filter(
+          (s) =>
+            (activeCategory === "All" || s.category === activeCategory) &&
+            (!q ||
+              s.title.toLowerCase().includes(q) ||
+              s.description.toLowerCase().includes(q) ||
+              s.category.toLowerCase().includes(q)),
+        );
+
+        countEl.textContent = `${list.length} service${list.length === 1 ? "" : "s"}`;
+
+        if (!list.length) {
+          cardsEl.innerHTML = `<div class="empty-state">No services found.</div>`;
+          return;
+        }
+
+        cardsEl.innerHTML = list
+          .map(
+            (s, i) => `
+        <article class="project-card">
+          <span class="card-number">${String(i + 1).padStart(2, "0")}</span>
+          <div class="card-content">
+            <div class="card-label">${esc(s.category)}</div>
+            <h3>${esc(s.title)}</h3>
+            <p style="margin:8px 0 0;color:var(--muted);font-size:var(--text-sm);line-height:1.6;">
+              ${esc(s.description)}
+            </p>
+          </div>
+          <a class="open-project" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">
+            Open ${linkIcon}
+          </a>
+        </article>`,
+          )
+          .join("");
+      }
+
+      async function init() {
+        try {
+          const res = await fetch("/db/gitam-services.json");
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          services = await res.json();
+          renderFilters();
+          renderCards();
+        } catch (err) {
+          countEl.textContent = "";
+          cardsEl.innerHTML = `
+          <div class="error-state">
+            <strong>Failed to load services</strong>
+            <p>Could not able to reach DB (${esc(err.message)}).
+               Serve this folder over HTTP, don't open the file directly.</p>
+            <ul>
+                <li> - College WIFI may be blocking the website.</li>
+                <li> - Change to mobile data and try again.</li>
+            </ul>
+          </div>`;
+        }
+      }
+
+      filtersEl.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-cat]");
+        if (!btn) return;
+        activeCategory = btn.dataset.cat;
+        renderFilters();
+        renderCards();
+      });
+
+      searchEl.addEventListener("input", (e) => {
+        query = e.target.value;
+        renderCards();
+      });
+
+      init();
+    </script>
+  </body>
+</html>

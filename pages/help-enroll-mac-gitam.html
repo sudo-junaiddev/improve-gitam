@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GITAM Wi-Fi & MAC Enrollment Guide</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="https://improve-gitam.demo.abujuni.dev/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<style>
+  /* ===== Theme tokens (daisyUI components) ===== */
+  html[data-theme="bca-neo"] {
+    color-scheme: dark;
+    --p: 62.3% 0.214 259.8;
+    --pc: 98% 0.01 260;
+    --s: 70.4% 0.14 182.5;
+    --sc: 18% 0.03 190;
+    --a: 86.1% 0.173 91.9;
+    --ac: 22% 0.04 90;
+    --n: 19% 0.03 262;
+    --nc: 94% 0.012 265;
+    --b1: 21.5% 0.03 262;
+    --b2: 16.5% 0.03 262;
+    --b3: 27% 0.035 262;
+    --bc: 94% 0.012 265;
+  }
+
+  body {
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    background: var(--bg) !important;
+    color: var(--text) !important;
+  }
+
+  /* ===== Color utilities mapped to style.css variables ===== */
+  /* (Tailwind CDN doesn't generate daisyUI color classes, so define them here) */
+  .bg-base-100 { background: var(--bg-card) !important; }
+  .bg-base-200 { background: var(--bg) !important; }
+  .border-base-300 { border-color: var(--border) !important; }
+  .text-base-content { color: var(--text) !important; }
+
+  .text-info      { color: var(--blue-light) !important; }
+  .text-secondary { color: var(--green-light) !important; }
+  .text-warning   { color: var(--yellow) !important; }
+  .text-primary   { color: var(--blue-light) !important; }
+
+  .bg-primary\/10  { background: rgba(59, 130, 246, 0.10) !important; }
+  .bg-primary\/20  { background: rgba(59, 130, 246, 0.20) !important; }
+  .border-primary\/40 { border-color: rgba(59, 130, 246, 0.40) !important; }
+  .bg-warning\/10  { background: rgba(250, 204, 21, 0.08) !important; }
+  .border-warning\/25 { border-color: rgba(250, 204, 21, 0.25) !important; }
+
+  /* Buttons */
+  .btn-primary {
+    background: var(--blue) !important;
+    border-color: var(--blue) !important;
+    color: #fff !important;
+  }
+  .btn-primary:hover {
+    background: var(--blue-light) !important;
+    border-color: var(--blue-light) !important;
+  }
+
+  /* Links (style.css resets them to inherit) */
+  a.link { text-decoration: underline; text-underline-offset: 3px; }
+  a.link-primary { color: var(--blue-light) !important; }
+  a.link-accent  { color: var(--yellow) !important; }
+
+  /* Nav menus */
+  .menu li > a { color: var(--text); }
+  .menu li > a:hover { background: rgba(59, 130, 246, 0.12); color: var(--blue-light); }
+  .collapse { background: var(--bg) !important; border-color: var(--border) !important; }
+  .collapse-title { color: var(--text); }
+
+  /* Inline code chips */
+  .chip {
+    display: inline;
+    padding: 2px 7px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: rgba(148, 163, 184, 0.10);
+    color: var(--text);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11.5px;
+    line-height: 1.9;
+    word-break: break-word;
+  }
+  .chip-accent  { color: var(--yellow); border-color: rgba(250, 204, 21, 0.25); background: rgba(250, 204, 21, 0.08); }
+  .chip-primary { color: var(--blue-light); border-color: rgba(59, 130, 246, 0.30); background: rgba(59, 130, 246, 0.10); }
+
+  /* Step lists */
+  .steps { list-style: decimal; padding-left: 1.25rem; color: var(--text); }
+  .steps > li { padding-left: .25rem; margin-bottom: .5rem; line-height: 1.7; }
+  .steps > li::marker { color: var(--muted); font-weight: 600; }
+  .steps ul { list-style: disc; padding-left: 1.25rem; margin-top: .4rem; }
+  .steps ul > li { margin-bottom: .25rem; }
+
+  /* Labels + inset panels */
+  .eyebrow {
+    color: var(--green-light);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  [id] { scroll-margin-top: 20px; }
+  .panel { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
+  .panel h3 { color: var(--blue-light); }
+
+  /* Terminal blocks */
+  .mockup-code { background: #0b1220 !important; border: 1px solid var(--border); color: var(--text) !important; }
+  .mockup-code pre { overflow-x: auto; }
+  .mockup-code pre::before { color: var(--muted) !important; }
+</style>
+<body class="bg-base-200 min-h-screen py-6 sm:py-10 px-3 sm:px-6 lg:px-8 text-base-content font-sans antialiased">
+  <main class="max-w-5xl mx-auto space-y-6 sm:space-y-10">
+
+    <!-- HERO SECTION -->
+    <header class="card bg-base-100 shadow-xl border border-base-300 overflow-hidden">
+      <div class="p-6 sm:p-10 flex flex-col lg:flex-row gap-8 items-center justify-between">
+        <div class="space-y-4 max-w-2xl text-left">
+          <div class="inline-flex items-center gap-2 bg-primary/10 text-primary font-bold px-3 py-1.5 rounded-full text-xs sm:text-sm tracking-wide">
+            <i data-lucide="wifi" class="w-4 h-4"></i> IMPROVE GITAM
+          </div>
+          <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-base-content">
+            Guide to Enroll MAC address for connecting to GITAM Wi-Fi
+          </h1>
+          <p class="text-sm sm:text-base text-base-content/80 leading-relaxed">
+            Step-by-step instructions to register your device's static MAC address and get connected across all major smartphones, tablets, and desktop operating systems.
+          </p>
+        </div>
+        
+        <div class="shrink-0 flex flex-col items-center gap-2">
+          <img class="rounded-2xl shadow-lg border-2 border-base-300 max-w-[150px] sm:max-w-[200px] object-cover" src="https://media1.tenor.com/m/Ew-TKu5QfzsAAAAd/playing-gaming.gif" alt="Thumbs up" />
+        </div>
+      </div>
+    </header>
+
+    <!-- NETWORK SELECTION & QUICK CREDENTIALS -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+      
+      <!-- Network Types Card -->
+      <div class="card bg-base-100 shadow-md border border-base-300 p-5 sm:p-6 md:col-span-2 space-y-4">
+        <h2 class="text-lg sm:text-xl font-bold text-secondary flex items-center gap-2">
+          <i data-lucide="router" class="w-5 h-5 text-secondary"></i> Which Wi-Fi network to choose?
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="bg-base-200 p-3.5 rounded-xl border border-base-300 space-y-1">
+            <div class="flex items-center gap-2 font-bold text-sm text-primary">
+              <i data-lucide="wifi-high" class="w-4 h-4"></i> GITAM-5GHz
+            </div>
+            <p class="text-xs text-base-content/70 leading-normal">
+              5G network with wider bandwidth. Recommended for most students for faster speeds.
+            </p>
+          </div>
+          <div class="bg-base-200 p-3.5 rounded-xl border border-base-300 space-y-1">
+            <div class="flex items-center gap-2 font-bold text-sm text-warning">
+              <i data-lucide="wifi-low" class="w-4 h-4"></i> GITAM
+            </div>
+            <p class="text-xs text-base-content/70 leading-normal">
+              2.4GHz network. Smart routers on campus dynamically handle 2G and 5G connections.
+            </p>
+          </div>
+        </div>
+        <div class="text-xs italic text-base-content/70 bg-warning/10 text-warning-content p-3 rounded-lg border-l-4 border-warning flex items-start gap-2">
+          <i data-lucide="alert-circle" class="w-4 h-4 shrink-0 mt-0.5"></i>
+          <span>Internet speed fluctuates across campus based on load and location—good luck gaming!</span>
+        </div>
+      </div>
+
+      <!-- Quick Credentials Box -->
+      <div class="card bg-base-100 shadow-md border border-base-300 p-5 sm:p-6 space-y-3 flex flex-col justify-between">
+        <h3 class="text-base font-bold text-base-content flex items-center gap-2 border-b border-base-200 pb-2">
+          <i data-lucide="key-round" class="w-4 h-4 text-primary"></i> Quick Credentials
+        </h3>
+        
+        <div class="space-y-2.5 text-xs sm:text-sm">
+          <div class="flex justify-between items-center bg-base-200 p-2.5 rounded-lg">
+            <span class="text-base-content/60 font-semibold">SSID</span>
+            <code class="font-mono font-bold text-primary">GITAM / -5GHz</code>
+          </div>
+          <div class="flex justify-between items-center bg-base-200 p-2.5 rounded-lg">
+            <span class="text-base-content/60 font-semibold">Password</span>
+            <code class="font-mono font-bold text-secondary">Gitam$$123</code>
+          </div>
+          <div class="flex justify-between items-center bg-base-200 p-2.5 rounded-lg">
+            <span class="text-base-content/60 font-semibold">Portal</span>
+            <a href="https://macenrollment.gitam.edu" target="_blank" class="link link-accent font-mono font-bold text-xs truncate max-w-[120px]">macenrollment.gitam.edu</a>
+          </div>
+        </div>
+
+        <a href="#mac-enrollment-instructions" class="btn btn-primary btn-sm w-full gap-2 mt-2">
+          <i data-lucide="arrow-down-circle" class="w-4 h-4"></i> Enrollment Steps
+        </a>
+      </div>
+
+    </section>
+
+    <!-- NAVIGATION INDEX -->
+    <section class="card bg-base-100 shadow-md border border-base-300 p-5 sm:p-8 space-y-4">
+      <div class="flex items-center gap-2 border-b border-base-200 pb-3">
+        <i data-lucide="list-tree" class="w-5 h-5 text-primary"></i>
+        <h2 class="text-lg sm:text-xl font-bold">Navigation Index</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Brand Index -->
+        <details class="collapse collapse-arrow bg-base-200 border border-base-300 rounded-xl" open>
+          <summary class="collapse-title font-semibold text-sm sm:text-base flex items-center gap-2">
+            <i data-lucide="smartphone" class="w-4 h-4 text-primary"></i> Index by Phone Brand / Platform
+          </summary>
+          <div class="collapse-content text-xs sm:text-sm">
+            <ul class="menu menu-sm w-full space-y-0.5 p-0">
+              <li><a href="#1-apple-iphone-ios" class="py-1.5"><i data-lucide="apple" class="w-3.5 h-3.5"></i> 1. Apple iPhone (iOS)</a></li>
+              <li><a href="#2-samsung-one-ui" class="py-1.5"><i data-lucide="smartphone" class="w-3.5 h-3.5"></i> 2. Samsung (One UI)</a></li>
+              <li><a href="#3-google-pixel--stock-android-motorola" class="py-1.5"><i data-lucide="smartphone" class="w-3.5 h-3.5"></i> 3. Google Pixel & Stock Android</a></li>
+              <li><a href="#4-nothing-phone-nothing-os" class="py-1.5"><i data-lucide="smartphone" class="w-3.5 h-3.5"></i> 4. Nothing Phone (Nothing OS)</a></li>
+              <li><a href="#5-xiaomi--redmi--poco-miui--hyperos" class="py-1.5"><i data-lucide="smartphone" class="w-3.5 h-3.5"></i> 5. Xiaomi / Redmi / POCO</a></li>
+              <li><a href="#6-oneplus--oppo--realme-oxygenos--coloros--realme-ui" class="py-1.5"><i data-lucide="smartphone" class="w-3.5 h-3.5"></i> 6. OnePlus / OPPO / Realme</a></li>
+              <li><a href="#7-vivo--iqoo-funtouch-os--originos" class="py-1.5"><i data-lucide="smartphone" class="w-3.5 h-3.5"></i> 7. Vivo / iQOO</a></li>
+              <li><a href="#8-desktop-platforms-windows-mac-os-linux" class="py-1.5"><i data-lucide="laptop" class="w-3.5 h-3.5"></i> 8. Desktop Platforms</a></li>
+            </ul>
+          </div>
+        </details>
+
+        <!-- OS Version Index -->
+        <details class="collapse collapse-arrow bg-base-200 border border-base-300 rounded-xl" open>
+          <summary class="collapse-title font-semibold text-sm sm:text-base flex items-center gap-2">
+            <i data-lucide="cpu" class="w-4 h-4 text-secondary"></i> Index by OS & Android Version
+          </summary>
+          <div class="collapse-content text-xs sm:text-sm space-y-2 pt-1">
+            <div>
+              <span class="font-bold text-[11px] text-primary uppercase tracking-wider block mb-1">iOS</span>
+              <ul class="menu menu-sm p-0">
+                <li><a href="#ios-18-17-16-15-14" class="py-1">iOS 18, 17, 16, 15, 14</a></li>
+              </ul>
+            </div>
+            <div>
+              <span class="font-bold text-[11px] text-primary uppercase tracking-wider block mb-1">Android 11 - 15</span>
+              <ul class="menu menu-sm p-0 grid grid-cols-1 sm:grid-cols-2 gap-0.5">
+                <li><a href="#android-10-11-12-13-14-15-one-ui-20---7x" class="py-1">Samsung (One UI 3.0+)</a></li>
+                <li><a href="#android-12-13-14-15" class="py-1">Google Pixel & Stock</a></li>
+                <li><a href="#nothing-os-10---3x-android-12---15" class="py-1">Nothing Phone (1.0+)</a></li>
+                <li><a href="#hyperos--miui-12--13--14-android-11---15" class="py-1">Xiaomi / HyperOS</a></li>
+                <li><a href="#android-11-12-13-14-15" class="py-1">OnePlus / OPPO / Realme</a></li>
+                <li><a href="#android-11-12-13-14-15-1" class="py-1">Vivo / iQOO</a></li>
+              </ul>
+            </div>
+            <div>
+              <span class="font-bold text-[11px] text-primary uppercase tracking-wider block mb-1">Android 9 - 10</span>
+              <ul class="menu menu-sm p-0 grid grid-cols-1 sm:grid-cols-2 gap-0.5">
+                <li><a href="#android-9-one-ui-1x" class="py-1">Samsung (Android 9/10)</a></li>
+                <li><a href="#android-9-10-11" class="py-1">Google Pixel (9 - 11)</a></li>
+                <li><a href="#miui-10--11-android-9---10" class="py-1">Xiaomi (MIUI 10/11)</a></li>
+                <li><a href="#android-9--10" class="py-1">OnePlus/OPPO (9/10)</a></li>
+              </ul>
+            </div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- INSTRUCTIONS CONTAINER -->
+    <div class="space-y-6 sm:space-y-8">
+      
+      <!-- 1. Apple iPhone -->
+      <section id="1-apple-iphone-ios" class="card bg-base-100 shadow-md border border-base-300 p-5 sm:p-8 space-y-4">
+        <div class="flex items-center gap-3 border-b border-base-200 pb-3">
+          <div class="p-2 bg-primary/10 rounded-xl text-primary">
+            <i data-lucide="apple" class="w-6 h-6"></i>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-base-content">1. Apple iPhone (iOS)</h2>
+        </div>
+
+        <div id="ios-18-17-16-15-14" class="bg-base-200/60 p-4 sm:p-5 rounded-2xl border border-base-200 space-y-3">
+          <h3 class="font-bold text-sm sm:text-base text-secondary flex items-center gap-2">
+            <i data-lucide="layers" class="w-4 h-4"></i> iOS 18, 17, 16, 15, 14
+          </h3>
+          <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm leading-relaxed text-base-content/90">
+            <li>Go to <code class="badge badge-neutral font-mono text-[11px]">Settings</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Wi-Fi</code>.</li>
+            <li>Tap on <code class="badge badge-neutral font-mono text-[11px]">GITAM</code> or <code class="badge badge-neutral font-mono text-[11px]">GITAM-5GHz</code>.</li>
+            <li>Disable Fixed / Private MAC Address:
+              <ul class="list-disc list-inside ml-5 my-1 text-base-content/80 space-y-1">
+                <li>On <strong>iOS 18+</strong>: Tap <code class="badge badge-ghost font-mono text-[11px]">Private Wi-Fi Address</code> and select <code class="badge badge-ghost font-mono text-[11px]">Fixed</code> or turn off.</li>
+                <li>On <strong>iOS 14 - 17</strong>: Turn off <code class="badge badge-ghost font-mono text-[11px]">Private Wi-Fi Address</code>.</li>
+              </ul>
+            </li>
+            <li>Turn off <code class="badge badge-neutral font-mono text-[11px]">Limit IP Address Tracking</code> and <code class="badge badge-neutral font-mono text-[11px]">iCloud Private Relay</code> for this network.</li>
+            <li>Enter password <code class="badge badge-neutral font-mono text-[11px]">Gitam$$123</code> and click <code class="badge badge-neutral font-mono text-[11px]">Join</code>.</li>
+            <li>Tap info (<code class="font-mono font-bold">i</code>) icon on <code class="badge badge-neutral font-mono text-[11px]">GITAM-5GHz</code>, find <code class="badge badge-neutral font-mono text-[11px]">Wi-Fi Address</code>, and hold to copy MAC.</li>
+            <li>Go to <a href="https://macenrollment.gitam.edu" target="_blank" class="link link-primary font-semibold">macenrollment.gitam.edu</a> and log in.</li>
+            <li>If you have a laptop, enter your laptop MAC address there, else enter your phone MAC in place of the laptop MAC.</li>
+            <li>Click <code class="badge badge-primary font-mono text-[11px]">Submit</code>.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 2. Samsung -->
+      <section id="2-samsung-one-ui" class="card bg-base-100 shadow-md border border-base-300 p-5 sm:p-8 space-y-4">
+        <div class="flex items-center gap-3 border-b border-base-200 pb-3">
+          <div class="p-2 bg-primary/10 rounded-xl text-primary">
+            <i data-lucide="smartphone" class="w-6 h-6"></i>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-base-content">2. Samsung (One UI)</h2>
+        </div>
+
+        <div id="android-10-11-12-13-14-15-one-ui-20---7x" class="bg-base-200/60 p-4 sm:p-5 rounded-2xl border border-base-200 space-y-3">
+          <h3 class="font-bold text-sm sm:text-base text-secondary">Android 10 - 15 (One UI 2.0 - 7.x)</h3>
+          <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm leading-relaxed text-base-content/90">
+            <li>Go to <code class="badge badge-neutral font-mono text-[11px]">Settings</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Connections</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Wi-Fi</code>.</li>
+            <li>Select <code class="badge badge-neutral font-mono text-[11px]">GITAM</code> or <code class="badge badge-neutral font-mono text-[11px]">GITAM-5GHz</code>.</li>
+            <li><strong>WAIT!</strong> Do not connect yet. Tap <code class="badge badge-neutral font-mono text-[11px]">View more</code> or <code class="badge badge-neutral font-mono text-[11px]">Advanced</code>.</li>
+            <li>Change <code class="badge badge-neutral font-mono text-[11px]">MAC address type</code> to <code class="badge badge-neutral font-mono text-[11px]">Phone MAC</code> (or turn off <code class="badge badge-neutral font-mono text-[11px]">Randomize MAC</code>).</li>
+            <li>Enter password <code class="badge badge-neutral font-mono text-[11px]">Gitam$$123</code> and tap <code class="badge badge-neutral font-mono text-[11px]">Connect</code>.</li>
+            <li>Go to <code class="badge badge-neutral font-mono text-[11px]">Settings</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">About Phone</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Status Information</code>.</li>
+            <li>Scroll down to <code class="badge badge-neutral font-mono text-[11px]">Wi-Fi MAC Address</code> and press-and-hold to copy.</li>
+            <li>Log in to <a href="https://macenrollment.gitam.edu" target="_blank" class="link link-primary font-semibold">macenrollment.gitam.edu</a> and submit your MAC.</li>
+          </ol>
+        </div>
+
+        <div id="android-9-one-ui-1x" class="bg-base-200/60 p-4 sm:p-5 rounded-2xl border border-base-200 space-y-3">
+          <h3 class="font-bold text-sm sm:text-base text-secondary">Android 9 (One UI 1.x)</h3>
+          <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm leading-relaxed text-base-content/90">
+            <li>Go to <code class="badge badge-neutral font-mono text-[11px]">Settings</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Connections</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Wi-Fi</code>.</li>
+            <li>Select <code class="badge badge-neutral font-mono text-[11px]">GITAM-5GHz</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Advanced</code>.</li>
+            <li>Under Privacy, change to <code class="badge badge-neutral font-mono text-[11px]">Phone MAC</code>.</li>
+            <li>Connect using <code class="badge badge-neutral font-mono text-[11px]">Gitam$$123</code> and copy MAC from <code class="badge badge-neutral font-mono text-[11px]">About Phone</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Status</code>.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 3. Google Pixel -->
+      <section id="3-google-pixel--stock-android-motorola" class="card bg-base-100 shadow-md border border-base-300 p-5 sm:p-8 space-y-4">
+        <div class="flex items-center gap-3 border-b border-base-200 pb-3">
+          <div class="p-2 bg-primary/10 rounded-xl text-primary">
+            <i data-lucide="smartphone" class="w-6 h-6"></i>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-base-content">3. Google Pixel & Stock Android (Motorola)</h2>
+        </div>
+
+        <div id="android-12-13-14-15" class="bg-base-200/60 p-4 sm:p-5 rounded-2xl border border-base-200 space-y-3">
+          <h3 class="font-bold text-sm sm:text-base text-secondary">Android 12 - 15</h3>
+          <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm leading-relaxed text-base-content/90">
+            <li>Go to <code class="badge badge-neutral font-mono text-[11px]">Settings</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Network & Internet</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Internet</code>.</li>
+            <li>Select <code class="badge badge-neutral font-mono text-[11px]">GITAM</code> or <code class="badge badge-neutral font-mono text-[11px]">GITAM-5GHz</code>.</li>
+            <li>Tap <code class="badge badge-neutral font-mono text-[11px]">Privacy</code> and set to <code class="badge badge-neutral font-mono text-[11px]">Use Device MAC</code>.</li>
+            <li>Enter password <code class="badge badge-neutral font-mono text-[11px]">Gitam$$123</code> and connect.</li>
+            <li>Copy MAC from <code class="badge badge-neutral font-mono text-[11px]">Settings</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">About Phone</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Wi-Fi MAC Address</code>.</li>
+          </ol>
+        </div>
+
+        <div id="android-9-10-11" class="bg-base-200/60 p-4 sm:p-5 rounded-2xl border border-base-200 space-y-3">
+          <h3 class="font-bold text-sm sm:text-base text-secondary">Android 9, 10, 11</h3>
+          <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm leading-relaxed text-base-content/90">
+            <li>Go to <code class="badge badge-neutral font-mono text-[11px]">Settings</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Network & Internet</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Wi-Fi</code>.</li>
+            <li>Select <code class="badge badge-neutral font-mono text-[11px]">GITAM-5GHz</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Advanced</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Privacy</code>.</li>
+            <li>Change to <code class="badge badge-neutral font-mono text-[11px]">Use Device MAC</code> and connect using <code class="badge badge-neutral font-mono text-[11px]">Gitam$$123</code>.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 4. Nothing Phone -->
+      <section id="4-nothing-phone-nothing-os" class="card bg-base-100 shadow-md border border-base-300 p-5 sm:p-8 space-y-4">
+        <div class="flex items-center gap-3 border-b border-base-200 pb-3">
+          <div class="p-2 bg-primary/10 rounded-xl text-primary">
+            <i data-lucide="smartphone" class="w-6 h-6"></i>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-base-content">4. Nothing Phone (Nothing OS)</h2>
+        </div>
+
+        <div id="nothing-os-10---3x-android-12---15" class="bg-base-200/60 p-4 sm:p-5 rounded-2xl border border-base-200 space-y-3">
+          <h3 class="font-bold text-sm sm:text-base text-secondary">Nothing OS 1.0 - 3.x (Android 12 - 15)</h3>
+          <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm leading-relaxed text-base-content/90">
+            <li>Go to <code class="badge badge-neutral font-mono text-[11px]">Settings</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Network & Internet</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Internet</code>.</li>
+            <li>Select <code class="badge badge-neutral font-mono text-[11px]">GITAM</code> or <code class="badge badge-neutral font-mono text-[11px]">GITAM-5GHz</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Privacy</code>.</li>
+            <li>Change <code class="badge badge-neutral font-mono text-[11px]">Use randomized MAC</code> to <code class="badge badge-neutral font-mono text-[11px]">Use device MAC</code>.</li>
+            <li>Enter password <code class="badge badge-neutral font-mono text-[11px]">Gitam$$123</code> and connect.</li>
+            <li>Copy MAC from <code class="badge badge-neutral font-mono text-[11px]">Settings</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">About Phone</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Device Details</code>.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 5. Xiaomi / Redmi / POCO -->
+      <section id="5-xiaomi--redmi--poco-miui--hyperos" class="card bg-base-100 shadow-md border border-base-300 p-5 sm:p-8 space-y-4">
+        <div class="flex items-center gap-3 border-b border-base-200 pb-3">
+          <div class="p-2 bg-primary/10 rounded-xl text-primary">
+            <i data-lucide="smartphone" class="w-6 h-6"></i>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-base-content">5. Xiaomi / Redmi / POCO (MIUI / HyperOS)</h2>
+        </div>
+
+        <div id="hyperos--miui-12--13--14-android-11---15" class="bg-base-200/60 p-4 sm:p-5 rounded-2xl border border-base-200 space-y-3">
+          <h3 class="font-bold text-sm sm:text-base text-secondary">HyperOS & MIUI 12 / 13 / 14 (Android 11 - 15)</h3>
+          <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm leading-relaxed text-base-content/90">
+            <li>Go to <code class="badge badge-neutral font-mono text-[11px]">Settings</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Wi-Fi</code>.</li>
+            <li>Click on arrow/icon next to <code class="badge badge-neutral font-mono text-[11px]">GITAM</code> or <code class="badge badge-neutral font-mono text-[11px]">GITAM-5GHz</code>.</li>
+            <li>Tap <code class="badge badge-neutral font-mono text-[11px]">Privacy</code> and select <code class="badge badge-neutral font-mono text-[11px]">Use Device MAC</code>.</li>
+            <li>Enter password <code class="badge badge-neutral font-mono text-[11px]">Gitam$$123</code> and connect.</li>
+            <li>Copy MAC from <code class="badge badge-neutral font-mono text-[11px]">About Phone</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Detailed Specs</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Status</code>.</li>
+          </ol>
+        </div>
+
+        <div id="miui-10--11-android-9---10" class="bg-base-200/60 p-4 sm:p-5 rounded-2xl border border-base-200 space-y-3">
+          <h3 class="font-bold text-sm sm:text-base text-secondary">MIUI 10 / 11 (Android 9 - 10)</h3>
+          <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm leading-relaxed text-base-content/90">
+            <li>Go to <code class="badge badge-neutral font-mono text-[11px]">Wi-Fi</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">GITAM-5GHz</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Advanced Settings</code>.</li>
+            <li>Set Privacy to <code class="badge badge-neutral font-mono text-[11px]">Use Device MAC</code> and connect with <code class="badge badge-neutral font-mono text-[11px]">Gitam$$123</code>.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 6. OnePlus / OPPO / Realme -->
+      <section id="6-oneplus--oppo--realme-oxygenos--coloros--realme-ui" class="card bg-base-100 shadow-md border border-base-300 p-5 sm:p-8 space-y-4">
+        <div class="flex items-center gap-3 border-b border-base-200 pb-3">
+          <div class="p-2 bg-primary/10 rounded-xl text-primary">
+            <i data-lucide="smartphone" class="w-6 h-6"></i>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-base-content">6. OnePlus / OPPO / Realme</h2>
+        </div>
+
+        <div id="android-11-12-13-14-15" class="bg-base-200/60 p-4 sm:p-5 rounded-2xl border border-base-200 space-y-3">
+          <h3 class="font-bold text-sm sm:text-base text-secondary">Android 11 - 15 (OxygenOS / ColorOS / realme UI)</h3>
+          <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm leading-relaxed text-base-content/90">
+            <li>Go to <code class="badge badge-neutral font-mono text-[11px]">Settings</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Wi-Fi</code>.</li>
+            <li>Select <code class="badge badge-neutral font-mono text-[11px]">GITAM</code> or <code class="badge badge-neutral font-mono text-[11px]">GITAM-5GHz</code>.</li>
+            <li>Tap <code class="badge badge-neutral font-mono text-[11px]">Privacy</code> or <code class="badge badge-neutral font-mono text-[11px]">Wi-Fi MAC Address Type</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Use Device MAC</code>.</li>
+            <li>Enter password <code class="badge badge-neutral font-mono text-[11px]">Gitam$$123</code> and connect.</li>
+            <li>Copy MAC from <code class="badge badge-neutral font-mono text-[11px]">Settings</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">About Device</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Status</code>.</li>
+          </ol>
+        </div>
+
+        <div id="android-9--10" class="bg-base-200/60 p-4 sm:p-5 rounded-2xl border border-base-200 space-y-3">
+          <h3 class="font-bold text-sm sm:text-base text-secondary">Android 9 & 10</h3>
+          <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm leading-relaxed text-base-content/90">
+            <li>Go to <code class="badge badge-neutral font-mono text-[11px]">Wi-Fi</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">GITAM-5GHz</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Advanced</code>.</li>
+            <li>Set Privacy to <code class="badge badge-neutral font-mono text-[11px]">Use Device MAC</code> and connect with <code class="badge badge-neutral font-mono text-[11px]">Gitam$$123</code>.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 7. Vivo / iQOO -->
+      <section id="7-vivo--iqoo-funtouch-os--originos" class="card bg-base-100 shadow-md border border-base-300 p-5 sm:p-8 space-y-4">
+        <div class="flex items-center gap-3 border-b border-base-200 pb-3">
+          <div class="p-2 bg-primary/10 rounded-xl text-primary">
+            <i data-lucide="smartphone" class="w-6 h-6"></i>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-base-content">7. Vivo / iQOO (Funtouch OS / OriginOS)</h2>
+        </div>
+
+        <div id="android-11-12-13-14-15-1" class="bg-base-200/60 p-4 sm:p-5 rounded-2xl border border-base-200 space-y-3">
+          <h3 class="font-bold text-sm sm:text-base text-secondary">Android 11 - 15</h3>
+          <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm leading-relaxed text-base-content/90">
+            <li>Go to <code class="badge badge-neutral font-mono text-[11px]">Settings</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Network & Internet</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Wi-Fi</code>.</li>
+            <li>Select <code class="badge badge-neutral font-mono text-[11px]">GITAM</code> or <code class="badge badge-neutral font-mono text-[11px]">GITAM-5GHz</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Privacy</code>.</li>
+            <li>Change to <code class="badge badge-neutral font-mono text-[11px]">Use Device MAC</code>.</li>
+            <li>Enter password <code class="badge badge-neutral font-mono text-[11px]">Gitam$$123</code> and connect.</li>
+            <li>Copy MAC from <code class="badge badge-neutral font-mono text-[11px]">Settings</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">About Phone</code> &gt; <code class="badge badge-neutral font-mono text-[11px]">Status</code>.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 8. Desktop Platforms -->
+      <section id="8-desktop-platforms-windows-mac-os-linux" class="card bg-base-100 shadow-md border border-base-300 p-5 sm:p-8 space-y-6">
+        <div class="flex items-center gap-3 border-b border-base-200 pb-3">
+          <div class="p-2 bg-primary/10 rounded-xl text-primary">
+            <i data-lucide="laptop" class="w-6 h-6"></i>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-base-content">8. Desktop Platforms (Windows, Mac OS, Linux)</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+          <!-- Windows -->
+          <div class="bg-base-200/60 p-4 rounded-2xl border border-base-200 space-y-3 flex flex-col justify-between">
+            <div class="space-y-2">
+              <h3 class="font-bold text-sm sm:text-base text-secondary flex items-center gap-2">
+                <i data-lucide="monitor" class="w-4 h-4"></i> Windows
+              </h3>
+              <ol class="list-decimal list-inside space-y-1 text-xs text-base-content/80">
+                <li>Press <code class="badge badge-ghost font-mono text-[10px]">WIN</code> + <code class="badge badge-ghost font-mono text-[10px]">R</code>, type <code class="badge badge-ghost font-mono text-[10px]">cmd.exe</code>.</li>
+                <li>Run command:</li>
+              </ol>
+              <div class="mockup-code text-xs py-2 px-3 bg-neutral text-neutral-content rounded-xl">
+                <pre data-prefix="$"><code>getmac /v</code></pre>
+              </div>
+            </div>
+            <p class="text-[11px] text-base-content/70">Look for Wireless / WAN adapter MAC address.</p>
+          </div>
+
+          <!-- Mac OS -->
+          <div class="bg-base-200/60 p-4 rounded-2xl border border-base-200 space-y-3 flex flex-col justify-between">
+            <div class="space-y-2">
+              <h3 class="font-bold text-sm sm:text-base text-secondary flex items-center gap-2">
+                <i data-lucide="command" class="w-4 h-4"></i> Mac OS
+              </h3>
+              <ol class="list-decimal list-inside space-y-1 text-xs text-base-content/80">
+                <li>Open <code class="badge badge-ghost font-mono text-[10px]">Terminal</code>.</li>
+                <li>Run command:</li>
+              </ol>
+              <div class="mockup-code text-xs py-2 px-3 bg-neutral text-neutral-content rounded-xl overflow-x-auto">
+                <pre data-prefix="$"><code>networksetup -listallhardwareports | grep "WIFI"</code></pre>
+              </div>
+            </div>
+            <p class="text-[11px] text-base-content/70">Copy the displayed Wi-Fi MAC address.</p>
+          </div>
+
+          <!-- Linux -->
+          <div class="bg-base-200/60 p-4 rounded-2xl border border-base-200 space-y-3 flex flex-col justify-between">
+            <div class="space-y-2">
+              <h3 class="font-bold text-sm sm:text-base text-secondary flex items-center gap-2">
+                <i data-lucide="terminal" class="w-4 h-4"></i> Linux
+              </h3>
+              <ol class="list-decimal list-inside space-y-1 text-xs text-base-content/80">
+                <li>Open <code class="badge badge-ghost font-mono text-[10px]">Terminal</code>.</li>
+                <li>Run command:</li>
+              </ol>
+              <div class="mockup-code text-xs py-2 px-3 bg-neutral text-neutral-content rounded-xl overflow-x-auto">
+                <pre data-prefix="$"><code>ip route get 1 | awk '/dev/ {print $5}' | xargs -I{} cat /sys/class/net/{}/address</code></pre>
+              </div>
+            </div>
+            <p class="text-[11px] text-base-content/70">Works for Ubuntu, Fedora, Debian & Dual-Boot setups.</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- MAC ENROLLMENT INSTRUCTIONS CARD -->
+      <section id="mac-enrollment-instructions" class="card text-primary-content p-6 sm:p-8 shadow-xl space-y-4 rounded-3xl">
+        <div class="flex items-center gap-3">
+          <div class="p-2.5 bg-black/20 rounded-2xl">
+            <i data-lucide="check-circle-2" class="w-7 h-7 text-white"></i>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-black text-white">MAC Enrollment Instructions</h2>
+        </div>
+
+        <ol class="list-decimal list-inside space-y-2 font-medium text-sm sm:text-base text-white/90">
+          <li>Go to <a href="https://macenrollment.gitam.edu" target="_blank" class="underline font-bold text-white hover:text-white/80">macenrollment.gitam.edu</a> and log in with your credentials.</li>
+          <li>If you have a laptop, add your laptop MAC address. If not, enter your phone MAC address in place of the laptop MAC address.</li>
+          <li>Click <code class="bg-black/30 text-white px-2 py-0.5 rounded font-mono text-xs sm:text-sm font-bold">Submit</code> — Done!</li>
+        </ol>
+      </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-6 text-xs sm:text-sm text-base-content/60 flex items-center justify-center gap-1.5 border-t border-base-300">
+      <span>Made by</span>
+      <a href="https://abujuni.dev" target="_blank" rel="noopener noreferrer" class="link link-primary font-bold inline-flex items-center gap-1">
+        Junaid <i data-lucide="external-link" class="w-3 h-3"></i>
+      </a>
+    </footer>
+
+  </main>
+
+  <!-- Initialize Lucide Icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
