@@ -1,0 +1,90 @@
+[
+  {
+    "id": "g-student",
+    "title": "G-Student",
+    "description": "Student login portal",
+    "category": "Academics",
+    "url": "https://login.gitam.edu",
+    "verified": true
+  },
+  {
+    "id": "my-gitam",
+    "title": "My-GITAM",
+    "description": "Single login for students and parents to reach all GITAM portals.",
+    "category": "Portal",
+    "url": "https://gu.gitam.edu/student",
+    "verified": true
+  },
+
+  {
+    "id": "g-learn",
+    "title": "G-Learn",
+    "description": "Learning management system for student faculty interaction and course material.",
+    "category": "Academics",
+    "url": "https://glearn.gitam.edu",
+    "verified": true
+  },
+  {
+    "id": "g-pay",
+    "title": "G-Pay",
+    "description": "Pay tuition, hostel, bus pass, library and mess fees; recharge G-card.",
+    "category": "Payments",
+    "url": "https://gpay.gitam.edu",
+    "verified": true
+  },
+  {
+    "id": "g-library",
+    "title": "G-Library",
+    "description": "Knowledge Resource Centre with e-learning resources and digital libraries.",
+    "category": "Library",
+    "url": "https://www.gitam.edu/library",
+    "verified": false
+  },
+  {
+    "id": "g-digital-repo",
+    "title": "GITAM Digital Repository",
+    "description": "All PYQs, Subject related resource materials.",
+    "url": "https://digitalrepository.gitam.edu/",
+    "verified": true
+  },
+  {
+    "id": "g-parent",
+    "title": "G-Parent",
+    "description": "Parent login to track their ward's attendance, results and fees.",
+    "category": "Portal",
+    "url": "https://parent.gitam.edu/login",
+    "verified": true
+  },
+  {
+    "id": "g-alumni",
+    "title": "G-Alumni",
+    "description": "Alumni network and engagement portal.",
+    "category": "Alumni",
+    "url": "https://www.gitam.edu/alumni",
+    "verified": false
+  },
+  {
+    "id": "nad",
+    "title": "National Academic Depository",
+    "description": "Digital storage and verification of academic certificates.",
+    "category": "Exams",
+    "url": "https://nad.gov.in",
+    "verified": true
+  },
+  {
+    "id": "bus-schedule",
+    "title": "Bus Schedule",
+    "description": "Campus transport routes, boarding points and timings.",
+    "category": "Campus",
+    "url": "https://www.gitam.edu/campus-life/transport-facilities",
+    "verified": true
+  },
+  {
+    "id": "wifi-mac-enroll",
+    "title": "WIFI MAC Enrollment",
+    "description": "To connect to GITAM university WIFI, you need to enroll your smart-phone mac adress",
+    "category": "Support",
+    "url": "https://samadhaan.ugc.ac.in",
+    "verified": true
+  }
+]
