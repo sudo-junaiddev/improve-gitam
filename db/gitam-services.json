@@ -81,10 +81,10 @@
   },
   {
     "id": "wifi-mac-enroll",
-    "title": "WIFI MAC Enrollment",
+    "title": "GITAM WIFI MAC Enrollment",
     "description": "To connect to GITAM university WIFI, you need to enroll your smart-phone mac adress",
     "category": "Support",
-    "url": "https://samadhaan.ugc.ac.in",
+    "url": "https://macenrollment.gitam.edu/",
     "verified": true
   }
 ]
